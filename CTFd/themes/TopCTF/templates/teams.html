@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block stylesheets %}
+{% endblock %}
+{% block content %}
+{#<div class="jumbotron home">#}
+{#	<div class="container">#}
+{#		<h1>Teams</h1>#}
+{#	</div>#}
+{#</div>#}
+<div class="row">
+    <div class="col-md-12" style="color:#df0615;font-size:36px;text-align: center;margin-top:50px;">
+        Teams
+    </div>
+</div>
+<div class="public_title_line"></div>
+<div class="container main-container" style="padding: 0px;">
+	<table id="teamsboard" class="table table-striped">
+		<thead>
+			<tr class="ctf_teams_title">
+				<td>Team</td>
+				<td>Website</td>
+				<td>Affiliation</td>
+				<td class="hidden-xs">Country</td>
+			</tr>
+		</thead>
+		<tbody>
+		{% for team in teams %}
+			<tr class="ctf_teams_content">
+				<td>
+				{% if hide_scores() %}
+					<span>{{ team.name }}</span>
+				{% else %}
+					<a href="{{ request.script_root }}/team/{{ team.id }}">{{ team.name }}</a>
+				{% endif %}
+				</td>
+				<td>{% if team.website and (team.website.startswith('http://') or team.website.startswith('https://')) %}<a href="{{ team.website }}">{{ team.website }}</a>{% endif %}</td>
+				<td><span>{% if team.affiliation %}{{ team.affiliation }}{% endif %}</span></td>
+				<td class="hidden-xs"><span>{% if team.country %}{{ team.country }}{% endif %}</span></td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	{% if team_pages > 1 %}
+	<div class="text-center">Page
+		<br>
+		{% if curr_page != 1 %}<a href="{{ request.script_root }}/teams/{{ curr_page-1 }}">&lt;&lt;&lt;</a>{% endif %}
+		{% for page in range(1, team_pages + 1) %}
+			{% if curr_page != page %}
+				<a href="{{ request.script_root }}/teams/{{ page }}">{{ page }}</a>
+			{% else %}
+				<b>{{page}}</b>
+			{% endif %}
+		{% endfor %}
+		{% if curr_page != team_pages %}<a href="{{ request.script_root }}/teams/{{ curr_page+1 }}">&gt;&gt;&gt;</a>{% endif %}
+	<a href="{{ request.script_root }}">
+	</div>
+	{% endif %}
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+    <script>
+    $(function(){
+         var htmlType="Teams";
+         for(var i = 0;i<$(".ctf-header-type").length;i++){
+             if($(".ctf-header-type").eq(i).html()==htmlType){
+                 $(".ctf-header-type").eq(i).parent().css({
+                    "background":"#df0615"
+                })
+             }
+         }
+    })
+    </script>
+{% endblock %}
+

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+{#<div class="jumbotron home">#}
+{#	<div class="container">#}
+{#		<h1>Scoreboard</h1>#}
+{#	</div>#}
+{#</div>#}
+    <div class="row">
+    <div class="col-md-12" style="color:#df0615;font-size:36px;text-align: center;margin-top:30px;">
+        Scoreboard
+    </div>
+</div>
+<div class="public_title_line"></div>
+<div class="container main-container">
+	{% if errors %}
+	<div class="container main-container">
+		<div id='errors' class="row">
+	{% for error in errors %}
+			<h1>{{ error }}</h1>
+	{% endfor %}
+		</div>
+	</div>
+	{% else %}
+
+		{% if score_frozen %}
+		<div class="container main-container">
+			<div class="row">
+				<h1>Scoreboard has been frozen.</h1>
+			</div>
+		</div>
+		{% endif %}
+
+	<div id="score-graph">
+		<div class="text-center">
+			<i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw spinner"></i>
+		</div>
+	</div>
+	<br>
+
+	<table id="scoreboard" class="table table-striped">
+		<thead>
+			<tr class="ctf_scoreboard_listTitle">
+				<td width="100px">Place
+				</td>
+				<td>Team
+				</td>
+				<td>Score
+				</td>
+			</tr>
+		</thead>
+		<tbody>
+		{% for team in teams %}
+			<tr class="ctf_scoreboard_list"><td>{{ loop.index }}</td><td><a href="{{ request.script_root }}/team/{{ team.teamid }}">{{ team.name }}</a></td><td>{{ team.score }}</td></tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	{% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ request.script_root }}/themes/{{ ctf_theme() }}/static/js/vendor/plotly.min.js"></script>
+	<script src="{{ request.script_root }}/themes/{{ ctf_theme() }}/static/js/utils.js"></script>
+	<script src="{{ request.script_root }}/themes/{{ ctf_theme() }}/static/js/scoreboard.js"></script>
+     <script>
+
+    $(function(){
+         var htmlType="Scoreboard";
+         for(var i = 0;i<$(".ctf-header-type").length;i++){
+             if($(".ctf-header-type").eq(i).html()==htmlType){
+                 $(".ctf-header-type").eq(i).parent().css({
+                    "background":"#df0615"
+                })
+             }
+         }
+    })
+    </script>
+{% endblock %}

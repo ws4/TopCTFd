@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block stylesheets %}
+{% endblock %}
+
+{% block content %}
+<div class="container main-container">
+	<div class="row">
+		<div id="login-container" style="background: none;padding: 50px 0px 140px 0px;" class="col-md-8 col-md-offset-2">
+            <img src="{{ request.script_root }}/themes/{{ ctf_theme() }}/static/img/ctfLogo.png">
+            <p style="text-align: center;color: #222;font-size:28px;margin-top:40px; ">北京天融信网络安全有限公司CTF比赛平台</p>
+            <p style="text-align: center;color: #222;font-size:28px;">可信网络，安全世界</p>
+            <div style="font-size:22px;text-align: center;margin-top:30px;"><a style="color: #ff3300;text-decoration:underline;" href="{{ request.script_root }}/login">点这里</a> 登录比赛环境</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ request.script_root }}/themes/{{ ctf_theme() }}/static/js/style.js"></script>
+<script>
+	if (window.location.hash == "#frame"){
+		$('.top-bar').hide();
+	}
+	$(function(){
+        $('.body-container').css({
+            'background-image':'url({{ request.script_root }}/themes/{{ ctf_theme() }}/static/img/ctfBg.png)',
+            'background-repeat':'no-repeat',
+            'background-position': 'center center',
+            'background-size': 'cover',
+            '-moz-background-size':'cover',
+            '-webkit-background-size':'cover'
+        })
+    })
+</script>
+{% endblock %}
